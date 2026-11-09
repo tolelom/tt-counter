@@ -3,7 +3,7 @@
 
 import cocotb
 from cocotb.clock import Clock
-from cocotb.triggers import ClockCycles, ReadOnly
+from cocotb.triggers import ClockCycles, FallingEdge
 
 
 async def reset(dut):
@@ -19,14 +19,14 @@ async def reset(dut):
 
 async def count_after(dut, cycles):
     await ClockCycles(dut.clk, cycles)
-    await ReadOnly()
+    await FallingEdge(dut.clk)
     return dut.uo_out.value
 
 
 @cocotb.test()
 async def test_reset_clears(dut):
     await reset(dut)
-    await ReadOnly()
+    await FallingEdge(dut.clk)
     assert dut.uo_out.value == 0
 
 
@@ -50,6 +50,6 @@ async def test_reset_mid_count(dut):
     dut.rst_n.value = 0
     await ClockCycles(dut.clk, 10)
     dut.rst_n.value = 1
-    await ReadOnly()
+    await FallingEdge(dut.clk)
     assert dut.uo_out.value == 0
     assert await count_after(dut, 3) == 3

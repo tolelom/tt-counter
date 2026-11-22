@@ -1,42 +1,39 @@
-![](../../workflows/gds/badge.svg) ![](../../workflows/docs/badge.svg) ![](../../workflows/test/badge.svg) ![](../../workflows/fpga/badge.svg)
+# tt-counter
 
-# Tiny Tapeout Verilog Project Template
+> Tiny Tapeout 칩에 올리는 8비트 카운터
 
-- [Read the documentation for project](docs/info.md)
+Verilog · Tiny Tapeout(sky130A) · cocotb
 
-## What is Tiny Tapeout?
+## 기능
 
-Tiny Tapeout is an educational project that aims to make it easier and cheaper than ever to get your digital and analog designs manufactured on a real chip.
+- 클록 상승 에지마다 1씩 증가, 255 다음은 0
+- `rst_n`이 low면 다음 클록 에지에서 0
+- 카운트를 전용 출력 `uo_out`으로 출력
+- 1x1 타일, 50 MHz 클록
 
-To learn more and get started, visit https://tinytapeout.com.
+| 핀 | 용도 |
+|---|---|
+| `uo[0]`~`uo[7]` | `count[0]`~`count[7]` |
+| `ui`, `uio` | 미사용 |
 
-## Set up your Verilog project
+외부 하드웨어는 필요 없습니다.
 
-1. Add your Verilog files to the `src` folder.
-2. Edit the [info.yaml](info.yaml) and update information about your project, paying special attention to the `source_files` and `top_module` properties. If you are upgrading an existing Tiny Tapeout project, check out our [online info.yaml migration tool](https://tinytapeout.github.io/tt-yaml-upgrade-tool/).
-3. Edit [docs/info.md](docs/info.md) and add a description of your project.
-4. Adapt the testbench to your design. See [test/README.md](test/README.md) for more information.
+## 시작하기
 
-The GitHub action will automatically build the ASIC files using [LibreLane](https://www.zerotoasiccourse.com/terminology/librelane/).
+칩에서는 `rst_n`을 몇 클록 동안 low로 두었다가 풉니다. `uo_out`이 0을 읽은 뒤 클록마다 1씩 늘어나면 정상입니다.
 
-## Enable GitHub actions to build the results page
+## 문서
 
-- [Enabling GitHub Pages](https://tinytapeout.com/faq/#my-github-action-is-failing-on-the-pages-part)
+| 문서 | 내용 |
+|---|---|
+| `info.yaml` | 프로젝트 정보, 최상위 모듈, 소스 파일, 핀 배치 |
+| `docs/info.md` | 데이터시트 원문(동작, 시험 방법) |
+| `test/README.md` | cocotb 테스트벤치 실행과 파형 보기 |
 
-## Resources
+## 기여
 
-- [FAQ](https://tinytapeout.com/faq/)
-- [Digital design lessons](https://tinytapeout.com/digital_design/)
-- [Learn how semiconductors work](https://tinytapeout.com/siliwiz/)
-- [Join the community](https://tinytapeout.com/discord)
-- [Build your design locally](https://www.tinytapeout.com/guides/local-hardening/)
+시뮬레이션, lint, 합성 명령은 `CONTRIBUTING.md`에 있습니다.
 
-## What next?
+## 라이선스
 
-- [Submit your design to the next shuttle](https://app.tinytapeout.com/).
-- Edit [this README](README.md) and explain your design, how it works, and how to test it.
-- Share your project on your social network of choice:
-  - LinkedIn [#tinytapeout](https://www.linkedin.com/search/results/content/?keywords=%23tinytapeout) [@TinyTapeout](https://www.linkedin.com/company/100708654/)
-  - Mastodon [#tinytapeout](https://chaos.social/tags/tinytapeout) [@matthewvenn](https://chaos.social/@matthewvenn)
-  - X (formerly Twitter) [#tinytapeout](https://twitter.com/hashtag/tinytapeout) [@tinytapeout](https://twitter.com/tinytapeout)
-  - Bluesky [@tinytapeout.com](https://bsky.app/profile/tinytapeout.com)
+[Apache License 2.0](LICENSE)
